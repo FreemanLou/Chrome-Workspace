@@ -2,11 +2,8 @@ function saveAll() {
 	var openTabs = [];
 
 	chrome.tabs.query({}, function(tabs) {
-		for (var i = 0; i < tabs.length; i++) {
+		for (var i = 0; i < tabs.length; i++)
 			openTabs[i] = tabs[i];
-			//WORKS console.log(tabs[i].url)
-			//WORKS console.log(openTabs[i].url);
-		}
 
 		createSavedPage(openTabs);
 
@@ -22,9 +19,8 @@ function saveRange(min, max) {
 	var openTabs = [];
 
 	chrome.tabs.query({}, function(tabs){
-		for (var i = min; i < max; i++) {
+		for (var i = min; i < max; i++)
 			openTabs[i] = tabs[i];
-		}
 
 		createSavedPage(openTabs);
 
@@ -45,8 +41,11 @@ function deleteTab(id) {
 function createSavedPage(tabsToSave) {
 	chrome.tabs.create({"url": chrome.extension.getURL("template.html"), "active": false}, 
 		function(tab) {
-			console.log(tab.url);
-			sendListToPage(tab, tabsToSave);
+			console.log(tab.id);
+			chrome.tabs.onUpdated.addListener(function(tabId, info) {
+				if(tabId == tab.id && info.status == "complete")
+					sendListToPage(tab, tabsToSave);
+			});
 		}
 	);
 }
@@ -56,6 +55,7 @@ function sendListToPage(tab, tabsArray) {
 	chrome.tabs.sendMessage(tab.id, {"action": "fill-list", "data": tabsArray}, function() {
 		console.log("MSG SENT");
 		console.log(tab.id);
+		console.log(tabsArray);
 	});
 }
 
