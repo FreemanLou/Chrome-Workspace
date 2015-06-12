@@ -30,12 +30,21 @@ function restoreTabs() {
 var restoreBtn = document.getElementById("restore-button");
 restoreBtn.addEventListener("click", restoreTabs);
 
+
+//If template.html is opened without popup.js 
+//By restarting browser/refreshing
+//Use local storage
+
+
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		console.log("RECEIVED");
-
-		if(request.action == "fill-list") {
+		if(request.action == "fill-list-new-data") {
 			var data = request.data;
+
+			//Save to local storage
+			chrome.storage.local.set({"saved-tabs":data});
+
+			//Pass data to fill in <ul>
 			createListItems(data);
 		}
 	}

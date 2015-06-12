@@ -24,7 +24,7 @@ function createSavedPage(tabsToSave) {
 		function(tab) {
 			chrome.tabs.onUpdated.addListener(function(tabId, info) {
 				if(tabId == tab.id && info.status == "complete")
-					chrome.tabs.sendMessage(tab.id, {"action": "fill-list", "data": tabsToSave});
+					chrome.tabs.sendMessage(tab.id, {"action": "fill-list-new-data", "data": tabsToSave});
 			});
 		}
 	);
