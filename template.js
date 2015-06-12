@@ -7,6 +7,7 @@ function createListItems(tabs) {
 
 		link.href = tabs[i].url;
 		link.innerHTML = tabs[i].title;
+		link.target = "_blank"; //Opens link in new tab
 
 		//Adds <a> to <li> and <li> to <ul>
 		listNode.appendChild(link);
