@@ -30,10 +30,6 @@ function restoreTabs() {
 var restoreBtn = document.getElementById("restore-button");
 restoreBtn.addEventListener("click", restoreTabs);
 
-chrome.tabs.getCurrent(function(tab){
-	console.log(tab.id);
-});
-
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		console.log("RECEIVED");
