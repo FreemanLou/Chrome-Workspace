@@ -6,25 +6,26 @@ function saveAll() {
 			openTabs[i] = tabs[i];
 
 		createSavedPage(openTabs);
-
-		// for(var i = 0; i < openTabs.length; i++) {
-		// 	var id = openTabs[i].id;
-		// 	deleteTab(id);
-		// }
 	});
 }
 
-function deleteTab(id) {
-	chrome.tabs.remove(id);
+function deleteTabs(tabs) {
+	for(var i = 0; i < tabs.length; i++)
+		chrome.tabs.remove(tabs[i].id);
 }
 
 
 function createSavedPage(tabsToSave) {
 	chrome.tabs.create({"url": chrome.extension.getURL("template.html"), "active": false}, 
 		function(tab) {
+			console.log(tabsToSave);
 			chrome.tabs.onUpdated.addListener(function(tabId, info) {
-				if(tabId == tab.id && info.status == "complete")
+				if(tabId == tab.id && info.status == "complete") {
 					chrome.tabs.sendMessage(tab.id, {"action": "fill-list-new-data", "data": tabsToSave});
+
+					//Clean Up tabs
+					deleteTabs(tabsToSave);
+				}
 			});
 		}
 	);

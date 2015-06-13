@@ -55,6 +55,7 @@ var currentlySaved = 0;
 
 chrome.storage.local.get("saved-tabs", function(data) {
 	//Check to see if data is empty
+	console.log(data);
 	if (Object.keys(data).length == 0)
 		return;
 	else {
