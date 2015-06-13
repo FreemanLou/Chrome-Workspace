@@ -16,6 +16,14 @@ function createListItems(tabs) {
 }
 
 
+function clearList() {
+	var list = document.getElementById("link-list");
+	while (list.firstChild) {
+		list.removeChild(list.firstChild);
+	}
+}
+
+
 function restoreTabs() {
 	var links = document.links;
 	var numLinks = links.length;
@@ -24,22 +32,36 @@ function restoreTabs() {
 		for(var i = 0; i < numLinks; i++)
 			window.open(links[i].href);
 	}
+
+	//Clear local storage
+	chrome.storage.local.remove("saved-tabs");
+
+	window.close();	
 }
 
 
 var restoreBtn = document.getElementById("restore-button");
 restoreBtn.addEventListener("click", restoreTabs);
 
+//Check local storage first
+var currentlySaved;
 
-//If template.html is opened without popup.js 
-//By restarting browser/refreshing
-//Use local storage
+chrome.storage.local.get("saved-tabs", function(data) {
+	//Check to see if data is empty
+	if (Object.keys(data).length == 0)
+		return;
+	else {
+		currentlySaved = data["saved-tabs"] ;
+		createListItems(currentlySaved);
+	}
+});
 
 
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		if(request.action == "fill-list-new-data") {
-			var data = request.data;
+		var data = request.data;
+		if(request.action == "fill-list-new-data" && data != currentlySaved) {
+			clearList();
 
 			//Save to local storage
 			chrome.storage.local.set({"saved-tabs":data});
