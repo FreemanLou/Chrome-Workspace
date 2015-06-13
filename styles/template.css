@@ -1,3 +1,40 @@
-ul {
-	list-style: none;
+body {
+	background-color: #F2F1EF;
+}
+
+#header {
+	margin-top: 50px;
+}
+
+.icon {
+	height: 32px;
+	width: 32px;
+	margin-right: 10px;
+}
+
+#restore-button {
+	margin-left: 20%;
+	margin-top: 40px;
+	margin-bottom: 20px;
+}
+
+li:hover {
+	background-color: #DADFE1;
+}
+
+li a {
+	margin: 0px;
+	display: inline-block;
+	width: 90%;
+	height: 100%;
+}
+
+li a:hover {
+	text-decoration: none;
+}
+
+.list-group-item {
+	margin: 0 auto;
+	height: 100%;
+	width: 60%;
 }

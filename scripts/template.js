@@ -3,13 +3,20 @@ function createListItems(tabs) {
 
 	for(var i = 0, j = tabs.length; i < j; i++) {
 		var listNode = document.createElement("li");
-		var link = document.createElement("a");
+		listNode.classList.add("list-group-item");
 
+		var icon = document.createElement("img");
+		icon.classList.add("icon");
+		var iconUrl = tabs[i].favIconUrl;
+		icon.src = iconUrl;
+
+		var link = document.createElement("a");
 		link.href = tabs[i].url;
 		link.innerHTML = tabs[i].title;
 		link.target = "_blank"; //Opens link in new tab
 
-		//Adds <a> to <li> and <li> to <ul>
+		//Adds <img> and <a> to <li> and <li> to <ul>
+		listNode.appendChild(icon);
 		listNode.appendChild(link);
 		list.appendChild(listNode);
 	}
@@ -44,7 +51,7 @@ var restoreBtn = document.getElementById("restore-button");
 restoreBtn.addEventListener("click", restoreTabs);
 
 //Check local storage first
-var currentlySaved;
+var currentlySaved = 0;
 
 chrome.storage.local.get("saved-tabs", function(data) {
 	//Check to see if data is empty
@@ -60,6 +67,7 @@ chrome.storage.local.get("saved-tabs", function(data) {
 chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		var data = request.data;
+
 		if(request.action == "fill-list-new-data" && data != currentlySaved) {
 			clearList();
 
