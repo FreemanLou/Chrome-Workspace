@@ -11,6 +11,8 @@ function saveAll() {
 		// 	var id = openTabs[i].id;
 		// 	deleteTab(id);
 		// }
+
+		window.close();
 	});
 }
 
