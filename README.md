@@ -3,4 +3,3 @@ Sometimes there are tabs that are not needed immediately, but are also not impor
 
 TO-DO
 1. Improve look
-2. Local storage
